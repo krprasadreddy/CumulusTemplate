@@ -128,8 +128,14 @@ GW_Volunteers: ${InstalledPackage.GW_Volunteers.versionNumber} (${version.GW_Vol
 
     <!-- TARGETS -->
 
+    <!-- Sets up a blank org with the template packages and metadata -->
+    <target name="installTemplate">
+      <antcall target="updatePackages" />
+      <antcall target="deploy" />
+    </target>
+
     <!-- updateDependendentPackages: Ensures all dependent packages are the correct version -->
-    <target name="updateDependentPackages">
+    <target name="updatePackages">
       <updateDependentPackages />
     </target>
 
