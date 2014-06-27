@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <customButtons>Mass_Email_Volunteers</customButtons>
-    <customButtons>Shift_Calendar</customButtons>
-    <customButtons>Roster</customButtons>
-    <customButtons>Find_Volunteers</customButtons>
+    <customButtons>GW_Volunteers__Mass_Email_Volunteers</customButtons>
+    <customButtons>GW_Volunteers__Shift_Calendar</customButtons>
+    <customButtons>GW_Volunteers__Roster</customButtons>
+    <customButtons>GW_Volunteers__Find_Volunteers</customButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -17,27 +17,27 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Volunteer_Job__c</field>
+                <field>GW_Volunteers__Volunteer_Job__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Start_Date_Time__c</field>
+                <field>GW_Volunteers__Start_Date_Time__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Duration__c</field>
+                <field>GW_Volunteers__Duration__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Description__c</field>
+                <field>GW_Volunteers__Description__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Desired_Number_of_Volunteers__c</field>
+                <field>GW_Volunteers__Desired_Number_of_Volunteers__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Number_of_Volunteers_Still_Needed__c</field>
+                <field>GW_Volunteers__Number_of_Volunteers_Still_Needed__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
@@ -51,15 +51,15 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Total_Volunteers__c</field>
+                <field>GW_Volunteers__Total_Volunteers__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Job_Recurrence_Schedule__c</field>
+                <field>GW_Volunteers__Job_Recurrence_Schedule__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>System_Note__c</field>
+                <field>GW_Volunteers__System_Note__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
@@ -95,15 +95,15 @@
         <style>CustomLinks</style>
     </layoutSections>
     <relatedLists>
-        <customButtons>Mass_Edit_Volunteer_Hours</customButtons>
-        <fields>Contact__c</fields>
-        <fields>Status__c</fields>
-        <fields>Number_of_Volunteers__c</fields>
-        <fields>Hours_Worked__c</fields>
-        <fields>Start_Date__c</fields>
-        <fields>End_Date__c</fields>
-        <relatedList>Volunteer_Hours__c.Volunteer_Shift__c</relatedList>
-        <sortField>End_Date__c</sortField>
+        <customButtons>GW_Volunteers__Mass_Edit_Volunteer_Hours</customButtons>
+        <fields>GW_Volunteers__Contact__c</fields>
+        <fields>GW_Volunteers__Status__c</fields>
+        <fields>GW_Volunteers__Number_of_Volunteers__c</fields>
+        <fields>GW_Volunteers__Hours_Worked__c</fields>
+        <fields>GW_Volunteers__Start_Date__c</fields>
+        <fields>GW_Volunteers__End_Date__c</fields>
+        <relatedList>GW_Volunteers__Volunteer_Hours__c.GW_Volunteers__Volunteer_Shift__c</relatedList>
+        <sortField>GW_Volunteers__End_Date__c</sortField>
         <sortOrder>Desc</sortOrder>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

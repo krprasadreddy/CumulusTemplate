@@ -113,7 +113,11 @@ GW_Volunteers: ${InstalledPackage.GW_Volunteers.versionNumber} (${version.GW_Vol
         <updatePackageVersion namespace="npe03" version="${version.npe03}" />
         <updatePackageVersion namespace="npe4" version="${version.npe4}" />
         <updatePackageVersion namespace="npe5" version="${version.npe5}" />
+
+        <antcall target="deployUnpackagedPre" />
         <updatePackageVersion namespace="npsp" version="${version.npsp}" />
+        <antcall target="deployUnpackagedPost" />
+
         <updatePackageVersion namespace="pub" version="${version.pub}" />
         <updatePackageVersion namespace="GW_Volunteers" version="${version.GW_Volunteers}" />
 
@@ -161,6 +165,42 @@ GW_Volunteers: ${InstalledPackage.GW_Volunteers.versionNumber} (${version.GW_Vol
 
       <delete dir="uninstallsrc" />
       <delete dir="uninstall" />
+    </target>
+
+    <!-- deployUnpackagedPre: Deploy the unpackaged/pre subdirectories containing metadata used in builds but not included in the managed package -->
+    <target name="deployUnpackagedPre">
+      <if>
+        <available file="${basedir}/unpackaged/pre/" type="dir" />
+        <then>
+          <for param="dir">
+            <path>
+              <dirset dir="${basedir}/unpackaged/pre/" includes="*" />
+            </path>
+            <sequential>
+              <echo>Deploying unpackaged bundle @{dir}</echo>
+              <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployRoot="@{dir}" runAllTests="false" maxPoll="${cumulusci.maxPoll.notest}" />
+            </sequential>
+          </for>
+        </then>
+      </if>
+    </target>
+
+    <!-- deployUnpackagedPost: Deploy the unpackaged/post subdirectories containing metadata used in builds but not included in the managed package -->
+    <target name="deployUnpackagedPost">
+      <if>
+        <available file="${basedir}/unpackaged/post/" type="dir" />
+        <then>
+          <for param="dir">
+            <path>
+              <dirset dir="${basedir}/unpackaged/post/" includes="*" />
+            </path>
+            <sequential>
+              <echo>Deploying unpackaged bundle @{dir}</echo>
+              <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployRoot="@{dir}" runAllTests="false" maxPoll="${cumulusci.maxPoll.notest}" />
+            </sequential>
+          </for>
+        </then>
+      </if>
     </target>
 
     <!-- deployCI: Does a full build including uninstalling previously deployed unpackaged code, updating managed package versions, and then deploying with all tests -->

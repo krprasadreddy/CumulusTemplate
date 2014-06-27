@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <customButtons>Copy_Household_Address_to_Contacts</customButtons>
+    <customButtons>npo02__Copy_Household_Address_to_Contacts</customButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>true</customLabel>
@@ -14,15 +14,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Formal_Greeting__c</field>
+                <field>npo02__Formal_Greeting__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Informal_Greeting__c</field>
+                <field>npo02__Informal_Greeting__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Addressee__c</field>
+                <field>npo02__Addressee__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -32,11 +32,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>HouseholdPhone__c</field>
+                <field>npo02__HouseholdPhone__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Always_Anonymous__c</field>
+                <field>npo02__Always_Anonymous__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -53,29 +53,29 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>MailingStreet__c</field>
+                <field>npo02__MailingStreet__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>MailingCity__c</field>
+                <field>npo02__MailingCity__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>MailingState__c</field>
+                <field>npo02__MailingState__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>MailingPostalCode__c</field>
+                <field>npo02__MailingPostalCode__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>MailingCountry__c</field>
+                <field>npo02__MailingCountry__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>HouseholdEmail__c</field>
+                <field>npo02__HouseholdEmail__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -88,77 +88,77 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>TotalOppAmount__c</field>
+                <field>npo02__TotalOppAmount__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>LargestAmount__c</field>
+                <field>npo02__LargestAmount__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>SmallestAmount__c</field>
+                <field>npo02__SmallestAmount__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>LastOppAmount__c</field>
+                <field>npo02__LastOppAmount__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>OppAmountLastNDays__c</field>
+                <field>npo02__OppAmountLastNDays__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>OppAmountThisYear__c</field>
+                <field>npo02__OppAmountThisYear__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>OppAmountLastYear__c</field>
+                <field>npo02__OppAmountLastYear__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>OppAmount2YearsAgo__c</field>
+                <field>npo02__OppAmount2YearsAgo__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Best_Gift_Year_Total__c</field>
+                <field>npo02__Best_Gift_Year_Total__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>NumberOfClosedOpps__c</field>
+                <field>npo02__NumberOfClosedOpps__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>AverageAmount__c</field>
+                <field>npo02__AverageAmount__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>FirstCloseDate__c</field>
+                <field>npo02__FirstCloseDate__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>LastCloseDate__c</field>
+                <field>npo02__LastCloseDate__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>OppsClosedLastNDays__c</field>
+                <field>npo02__OppsClosedLastNDays__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>OppsClosedThisYear__c</field>
+                <field>npo02__OppsClosedThisYear__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>OppsClosedLastYear__c</field>
+                <field>npo02__OppsClosedLastYear__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>OppsClosed2YearsAgo__c</field>
+                <field>npo02__OppsClosed2YearsAgo__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Best_Gift_Year__c</field>
+                <field>npo02__Best_Gift_Year__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -171,45 +171,45 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Membership_Status__c</field>
+                <field>npo02__Membership_Status__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>TotalMembershipOppAmount__c</field>
+                <field>npo02__TotalMembershipOppAmount__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>LastMembershipAmount__c</field>
+                <field>npo02__LastMembershipAmount__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>LastMembershipDate__c</field>
+                <field>npo02__LastMembershipDate__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>LastMembershipLevel__c</field>
+                <field>npo02__LastMembershipLevel__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>MembershipEndDate__c</field>
+                <field>npo02__MembershipEndDate__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>MembershipJoinDate__c</field>
+                <field>npo02__MembershipJoinDate__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>NumberOfMembershipOpps__c</field>
+                <field>npo02__NumberOfMembershipOpps__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Membership_Span__c</field>
+                <field>npo02__Membership_Span__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>LastMembershipOrigin__c</field>
+                <field>npo02__LastMembershipOrigin__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -261,7 +261,7 @@
         <fields>CONTACT.ADDRESS2_STREET</fields>
         <fields>CONTACT.ADDRESS2_CITY</fields>
         <fields>CONTACT.ADDRESS2_STATE</fields>
-        <relatedList>Contact.Household__c</relatedList>
+        <relatedList>Contact.npo02__Household__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
