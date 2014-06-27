@@ -1,0 +1,242 @@
+<project name="CumulusTesting" default="deploy" basedir="." xmlns:sf="antlib:com.salesforce">
+
+    <taskdef uri="antlib:com.salesforce" resource="com/salesforce/antlib.xml" classpath="lib/ant-salesforce.jar"/>
+
+    <include file="${basedir}/lib/ant-salesforce.xml" />
+
+    <loadproperties srcFile="${basedir}/cumulusci.properties"/>
+    <urlencode name="cumulusci.package.name.encoded" value="${cumulusci.package.name}" />
+
+    <taskdef 
+         resource="net/sf/antcontrib/antlib.xml"
+         classpath="${basedir}/lib/ant-contrib-1.0b2.jar" />
+
+    <!-- If no propertyfile was passed in command line, attempt to load a build.properties if it exists -->
+    <if>
+      <and>
+        <not><isset property="sf:username" /></not>
+        <available file="${basedir}/build.properties" />
+      </and>
+      <then>
+        <loadproperties srcFile="${basedir}/build.properties"/>
+      </then>
+    </if>
+
+
+    <!-- Load up the version.properties file to get desired versions -->
+    <loadproperties srcFile="${basedir}/version.properties"/>
+
+    <!-- Cumulus specific macros -->
+    <macrodef name="getPackageVersions" description="Gets the version for all installed packages">
+      <sequential>
+        <delete dir="${basedir}/installedPackages"/>
+        <mkdir dir="${basedir}/installedPackages"/>
+
+        <sf:bulkRetrieve
+            username="${sf.username}"
+            password="${sf.password}"
+            metadataType="InstalledPackage"
+            retrieveTarget="${basedir}/installedPackages"/>
+
+        <getPackageVersion namespace="npe01" refresh="false" />
+        <getPackageVersion namespace="npo02" refresh="false" />
+        <getPackageVersion namespace="npe03" refresh="false" />
+        <getPackageVersion namespace="npe4" refresh="false" />
+        <getPackageVersion namespace="npe5" refresh="false" />
+        <getPackageVersion namespace="npsp" refresh="false" />
+        <getPackageVersion namespace="pub" refresh="false" />
+        <getPackageVersion namespace="GW_Volunteers" refresh="false" />
+
+        <echo>Dependent Package Versions:
+-------------------------------
+npe01: ${InstalledPackage.npe01.versionNumber} (${version.npe01} required)
+npo02: ${InstalledPackage.npo02.versionNumber} (${version.npo02} required)
+npe03: ${InstalledPackage.npe03.versionNumber} (${version.npe03} required)
+npe4: ${InstalledPackage.npe4.versionNumber} (${version.npe4} required)
+npe5: ${InstalledPackage.npe5.versionNumber} (${version.npe5} required)
+npsp: ${InstalledPackage.npsp.versionNumber} (${version.npsp} required)
+pub: ${InstalledPackage.pub.versionNumber} (${version.pub} required)
+GW_Volunteers: ${InstalledPackage.GW_Volunteers.versionNumber} (${version.GW_Volunteers} required)
+
+        </echo>
+
+        <delete dir="${basedir}/installedPackages"/>
+
+      </sequential>
+    </macrodef>
+
+
+    <macrodef name="updateDependentPackages">
+      <sequential>
+        <getPackageVersions />
+
+        <!-- npsp depends on all other packages.  If it is installed and other packages need to be downgraded (uninstalled), uninstall npsp first -->
+        <if>
+          <and>
+            <not><equals arg1="${InstalledPackage.npsp.versionNumber}" arg2="Not Installed" /></not>
+            <or>
+              <bool><isgreaterthan arg1="${InstalledPackage.npe01.versionNumber}" arg2="version.npe01" /></bool>
+              <bool><isgreaterthan arg1="${InstalledPackage.npo02.versionNumber}" arg2="version.npo02" /></bool>
+              <bool><isgreaterthan arg1="${InstalledPackage.npe03.versionNumber}" arg2="version.npe03" /></bool>
+              <bool><isgreaterthan arg1="${InstalledPackage.npe4.versionNumber}" arg2="version.npe4" /></bool>
+              <bool><isgreaterthan arg1="${InstalledPackage.npe5.versionNumber}" arg2="version.npe5" /></bool>
+            </or>
+          </and>
+          <then>
+            <echo>Uninstalling npsp ${InstalledPackage.npsp.versionNumber} to allow for downgrade</echo>
+            <uninstallPackage namespace="npsp" username="${sf.username}" password="${sf.password}" />
+
+            <!-- Override the cached installed version of npsp so we don't have to fetch versions again -->
+            <var name="InstalledPackage.npsp.versionNumber" value="Not Installed" />
+          </then>
+        </if>
+
+        <!-- npo02 depends on npe01 so we have to uninstall npo02 first if npo02 needs downgraded -->
+        <if>
+          <and>
+            <!-- npo02 is installed -->
+            <not><equals arg1="${InstalledPackage.npo02.versionNumber}" arg2="Not Installed" /></not>
+            <!-- and npe01 need downgraded -->
+            <bool><isgreaterthan arg1="${InstalledPackage.npe01.versionNumber}" arg2="${version.npe01}" /></bool>
+          </and>  
+          <then>
+            <echo>Uninstalling npo02 ${InstalledPackage.npe01.versionNumber} to allow for npe01 downgrade</echo>
+            <uninstallPackage namespace="npo02" username="${sf.username}" password="${sf.password}" />
+
+            <!-- Override the cached installed version of npo02 so we don't have to fetch versions again -->
+            <var name="InstalledPackage.npo02.versionNumber" value="Not Installed" />
+          </then>
+        </if>
+
+        <updatePackageVersion namespace="npe01" version="${version.npe01}" />
+        <updatePackageVersion namespace="npo02" version="${version.npo02}" />
+        <updatePackageVersion namespace="npe03" version="${version.npe03}" />
+        <updatePackageVersion namespace="npe4" version="${version.npe4}" />
+        <updatePackageVersion namespace="npe5" version="${version.npe5}" />
+        <updatePackageVersion namespace="npsp" version="${version.npsp}" />
+        <updatePackageVersion namespace="pub" version="${version.pub}" />
+        <updatePackageVersion namespace="GW_Volunteers" version="${version.GW_Volunteers}" />
+
+      </sequential>
+    </macrodef>
+
+
+
+    <!-- TARGETS -->
+
+    <!-- updateDependendentPackages: Ensures all dependent packages are the correct version -->
+    <target name="updateDependentPackages">
+      <updateDependentPackages />
+    </target>
+
+    <!-- deploy: Deploys the unmanaged code running all tests -->
+    <target name="deploy">
+      <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployRoot="src" runAllTests="false" maxPoll="100" />
+    </target>
+
+    <!-- uninstall: Removes all metadata from the package via a custom build destructiveChanges.xml package-->
+    <target name="uninstall">
+      <delete dir="uninstallsrc" />
+      <delete dir="uninstall" />
+      <retrievePackaged dir="uninstallsrc" package="${cumulusci.package.name.encoded}" />
+      <buildPackagedDestructiveChanges srcdir="uninstallsrc" dir="uninstall" package="${cumulusci.package.name}" />
+      <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployRoot="uninstall" runAllTests="false" purgeOnDelete="true" maxPoll="200" />
+      <delete dir="uninstallsrc" />
+      <delete dir="uninstall" />
+    </target>
+
+    <!-- destroyStaleMetadata: Delete any metadata which exists in the package in the org but not in the src directory.  This is useful in packaging orgs -->
+    <target name="destroyStaleMetadata">
+      <delete dir="uninstallsrc" />
+      <delete dir="uninstall" />
+
+      <!-- Fetch all metadata in the  package from target org -->
+      <retrievePackaged dir="uninstallsrc" package="${cumulusci.package.name.encoded}" />
+
+      <!-- Build a destructiveChanges.xml pacckage to delete metadata in org but not in repo -->
+      <buildDestroyStaleMetadata srcdir="uninstallsrc" commdir="src" dir="uninstall" />
+
+      <!-- deploy the destructiveChanges.xml package -->
+      <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployRoot="uninstall" runAllTests="false" purgeOnDelete="true" maxPoll="200" />
+
+      <delete dir="uninstallsrc" />
+      <delete dir="uninstall" />
+    </target>
+
+    <!-- deployCI: Does a full build including uninstalling previously deployed unpackaged code, updating managed package versions, and then deploying with all tests -->
+    <!-- !!!WARNING!!!: DO NOT run this against a real production org as it will delete everything.  It is designed to clear the target org to ensure a clean build test. -->
+    <target name="deployCI">
+          <!-- First, uninstall all unpackaged code from the target org.  We have to do this first so we can uninstall and reinstall any managed packages not at the right version -->
+      <antcall target="uninstall" />
+
+      <!-- Deploy any unpackaged metadata needed for builds -->
+      <antcall target="deployUnpackaged" />
+
+      <!-- Finally, do a deploy with all tests -->
+      <antcall target="deploy" />
+          </target>
+
+    <!-- deployCIPackageOrg: Does a full build against the package org.  This differs from deployCI in that it uses destroyStaleMetadata instead of uninstall.
+         There are a few assumptions.  We never downgrade a dependent managed package in the packaging org.  This removes the need to completely remove
+         all metadata to allow a package downgrade.  In the package org, we can't delete all metadata once a production managed release is cut so this approach is required -->
+    <target name="deployCIPackageOrg">
+          <!-- Deploy any unpackaged metadata needed for builds -->
+      <antcall target="deployUnpackaged" />
+
+      <!-- Update the package.xml to managed package mode, adding install and uninstall script classes -->
+      <antcall target="updatePackageXmlManaged" />
+
+      <!-- Do a deploy with all tests -->
+      <antcall target="deploy" />
+
+      <!-- Finally, delete any metadata from the org which is not in the repo -->
+      <antcall target="destroyStaleMetadata" />
+
+    </target>
+
+    <!-- Developer focused build targets -->
+
+    <!-- retrieveUnpackaged: Retrieves all unpackaged metadata from target org into the unpackaged directory -->
+    <target name="retrieveUnpackaged">
+      <retrieveUnpackaged dir="org_unpackaged" />
+    </target>
+
+    <!-- retrievePackaged: Retrieves all metadata from the package in the target org into the packaged directory -->
+    <target name="retrievePackaged">
+      <retrievePackaged dir="packaged" package="${cumulusci.package.name}" />
+    </target>
+
+    <!-- retrievePackagedToSrc: Retrieves all metadata from the package in the target org into the src directory -->
+    <target name="retrievePackagedToSrc">
+      <retrievePackaged dir="src" package="${cumulusci.package.name}" mkdir="false" />
+    </target>
+   
+
+    <!-- runAllTests: Uses an empty package manifest to trigger execution of all tests in the target org without deploying any actual code changes -->
+    <target name="runAllTests">
+      <sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" deployRoot="lib/empty" runAllTests="true" maxPoll="200" />
+    </target>
+
+    <!-- updatePackageXml: Rebuilds the src/package.xml file to list all metadata in the src directory for known metadata types -->
+    <target name="updatePackageXml">
+      <buildPackageXml package="${cumulusci.package.name.encoded}" version="${cumulusci.package.apiVersion}" />
+    </target>
+
+    <!-- updatePackageXmlManaged: called before deployCIPackagingOrg to add attributes to the package.xml only available when deploying into a managed package -->
+    <target name="updatePackageXmlManaged">
+      <buildPackageXml package="${cumulusci.package.name.encoded}" version="${cumulusci.package.apiVersion}" installClass="${cumulusci.package.installClass}" uninstallClass="${cumulusci.package.uninstallClass}" />
+    </target>
+
+    <target name="remove_social_post_from_profiles">
+        <echo message="updating profiles to remove Social-Post references in src..." />
+        <replaceregexp match="^    &lt;layoutAssignments&gt;\n        &lt;layout&gt;SocialPost-Social Post Layout&lt;/layout&gt;\n    &lt;/layoutAssignments&gt;$" replace="" flags="gm" byline="false">
+            <fileset dir="src/profiles" includes="**/*.profile" />
+        </replaceregexp>
+    </target>
+ 
+    <target name="delete_social_post_files" depends="remove_social_post_from_profiles">
+        <echo message="deleting Social-Post related files from src..." />
+        <delete file="src/workflows/SocialPost.workflow"/>
+        <delete file="src/layouts/SocialPost-Social Post Layout.layout"/>
+    </target>
+</project>
