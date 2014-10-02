@@ -62,10 +62,10 @@ git diff tags/rel/$previous_version tags/rel/$1 -- src/package.xml | \
     grep '^+ ' | \
     sed -e 's/^+  *//g' > "$workspace/new_metadata.diff"
 
-# Create report of new metadata grouped by type and save as new_metadata.txt
+# Create report of new metadata grouped by type and save as new_metadata.md
 cd "$workspace"
-echo "# New Metadata from $previous_version to $1" > new_metadata.txt
-echo "" > new_metadata.txt
+echo "# New Metadata from $previous_version to $1" > new_metadata.md
+echo "" > new_metadata.md
 
 in_type=0
 if [ -f new_metadata.type ]; then rm new_metadata.type; fi
@@ -81,11 +81,11 @@ while read line; do
             in_type=0
             if [ -f new_metadata.type ]; then
                 type_name=`echo "$line" | sed -e 's/^.*<name>\(.*\)<\/name>/\1/g'`
-                echo "## $type_name" >> new_metadata.txt
+                echo "## $type_name" >> new_metadata.md
                 while read member; do
-                    echo "* $member" >> new_metadata.txt
+                    echo "* $member" >> new_metadata.md
                 done < new_metadata.type
-                echo "" >> new_metadata.txt
+                echo "" >> new_metadata.md
             fi
             if [ -f new_metadata.type ]; then rm new_metadata.type; fi
             type_name=''
