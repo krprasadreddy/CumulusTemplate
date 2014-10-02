@@ -14,10 +14,11 @@
     <!-- If no propertyfile was passed in command line, attempt to load a build.properties if it exists -->
     <if>
       <and>
-        <not><isset property="sf:username" /></not>
+        <not><isset property="sf.username" /></not>
         <available file="${basedir}/build.properties" />
       </and>
       <then>
+        <echo>Loading credentials from build.properties</echo>
         <loadproperties srcFile="${basedir}/build.properties"/>
       </then>
     </if>
@@ -35,6 +36,7 @@
         <sf:bulkRetrieve
             username="${sf.username}"
             password="${sf.password}"
+            serverurl="${sf.serverurl}"
             metadataType="InstalledPackage"
             retrieveTarget="${basedir}/installedPackages"/>
 
@@ -64,7 +66,6 @@ GW_Volunteers: ${InstalledPackage.GW_Volunteers.versionNumber} (${version.GW_Vol
 
       </sequential>
     </macrodef>
-
 
     <macrodef name="updateDependentPackages">
       <sequential>
@@ -116,9 +117,9 @@ GW_Volunteers: ${InstalledPackage.GW_Volunteers.versionNumber} (${version.GW_Vol
 
         <antcall target="deployUnpackagedPre" />
         <updatePackageVersion namespace="npsp" version="${version.npsp}" />
-        <antcall target="deployUnpackagedPost" />
-
+<!--
         <updatePackageVersion namespace="pub" version="${version.pub}" />
+        -->
         <updatePackageVersion namespace="GW_Volunteers" version="${version.GW_Volunteers}" />
 
       </sequential>
@@ -128,10 +129,15 @@ GW_Volunteers: ${InstalledPackage.GW_Volunteers.versionNumber} (${version.GW_Vol
 
     <!-- TARGETS -->
 
+    <target name="getPackageVersions">
+      <getPackageVersions />
+    </target>
+
     <!-- Sets up a blank org with the template packages and metadata -->
     <target name="installTemplate">
       <antcall target="updatePackages" />
       <antcall target="deploy" />
+      <antcall target="deployUnpackagedPost" />
     </target>
 
     <!-- updateDependendentPackages: Ensures all dependent packages are the correct version -->
@@ -273,6 +279,58 @@ GW_Volunteers: ${InstalledPackage.GW_Volunteers.versionNumber} (${version.GW_Vol
       <buildPackageXml package="${cumulusci.package.name.encoded}" version="${cumulusci.package.apiVersion}" installClass="${cumulusci.package.installClass}" uninstallClass="${cumulusci.package.uninstallClass}" />
     </target>
 
+    <!-- fetchManagedLayouts: Download the latest layout files for managed packages since simply upgrading the package will not upgrade the layouts -->
+    <target name="fetchManagedLayouts">
+      <get src="https://raw.githubusercontent.com/davidhabib/Volunteers-for-Salesforce/master/src/layouts/Job_Recurrence_Schedule__c-Volunteer%20Job%20Recurrence%20Schedule%20Layout.layout" 
+           dest="unpackaged/post/GW_Volunteers/layouts/GW_Volunteers__Job_Recurrence_Schedule__c-Volunteer Job Recurrence Schedule Layout.layout" />
+      <get src="https://raw.githubusercontent.com/davidhabib/Volunteers-for-Salesforce/master/src/layouts/Volunteer_Hours__c-Volunteer%20Hours%20Layout.layout" 
+           dest="unpackaged/post/GW_Volunteers/layouts/GW_Volunteers__Volunteer_Hours__c-Volunteer Hours Layout.layout" />
+      <get src="https://raw.githubusercontent.com/davidhabib/Volunteers-for-Salesforce/master/src/layouts/Volunteer_Job__c-Volunteer%20Job%20Layout.layout" 
+           dest="unpackaged/post/GW_Volunteers/layouts/GW_Volunteers__Volunteer_Job__c-Volunteer Job Layout.layout" />
+      <get src="https://raw.githubusercontent.com/davidhabib/Volunteers-for-Salesforce/master/src/layouts/Volunteer_Recurrence_Schedule__c-Volunteer%20Recurrence%20Schedule%20Layout.layout" 
+           dest="unpackaged/post/GW_Volunteers/layouts/GW_Volunteers__Volunteer_Recurrence_Schedule__c-Volunteer Recurrence Schedule Layout.layout" />
+      <get src="https://raw.githubusercontent.com/davidhabib/Volunteers-for-Salesforce/master/src/layouts/Volunteer_Shift__c-Volunteer%20Shift%20Layout.layout" 
+           dest="unpackaged/post/GW_Volunteers/layouts/GW_Volunteers__Volunteer_Shift__c-Volunteer Shift Layout.layout" />
+
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Contacts_and_Organizations/CumulusCI/src/layouts/OppPayment__c-Payment%20Layout.layout" 
+           dest="unpackaged/post/npe01/layouts/npe01__OppPayment__c-Payment Layout.layout" />
+
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Recurring_Donations/CumulusCI/src/layouts/Recurring_Donation__c-Recurring%20Donation%20Layout.layout" 
+           dest="unpackaged/post/npe03/layouts/npe03__Recurring_Donation__c-Recurring Donation Layout.layout" />
+
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Relationships/CumulusCI/src/layouts/Relationship_Error__c-Relationship%20Error%20Layout.layout" 
+           dest="unpackaged/post/npe4/layouts/npe4__Relationship_Error__c-Relationship Error Layout.layout" />
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Relationships/CumulusCI/src/layouts/Relationship__c-Relationship%20Layout.layout" 
+           dest="unpackaged/post/npe4/layouts/npe4__Relationship__c-Relationship Layout.layout" />
+
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Affiliations/CumulusCI/src/layouts/Affiliation__c-Affiliation%20Layout.layout" 
+           dest="unpackaged/post/npe5/layouts/npe5__Affiliation__c-Affiliation Layout.layout" />
+
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Households/CumulusCI/src/layouts/Household__c-Household%20Layout.layout" 
+           dest="unpackaged/post/npo02/layouts/npo02__Household__c-Household Layout.layout" />
+
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Cumulus/rel/${version.npsp}/src/layouts/Account-Household%20Layout.layout"
+           dest="unpackaged/post//npsp/layouts/Account-Household Layout.layout" />
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Cumulus/rel/${version.npsp}/src/layouts/Account-Organization%20Layout.layout"
+           dest="unpackaged/post//npsp/layouts/Account-Organization Layout.layout" />
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Cumulus/rel/${version.npsp}/src/layouts/Address__c-Address%20Layout.layout"
+           dest="unpackaged/post//npsp/layouts/npsp__Address__c-Address Layout.layout" />
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Cumulus/rel/${version.npsp}/src/layouts/Batch__c-Batch%20Layout.layout"
+           dest="unpackaged/post//npsp/layouts/npsp__Batch__c-Batch Layout.layout" />
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Cumulus/rel/${version.npsp}/src/layouts/Contact-Contact%20Layout.layout"
+           dest="unpackaged/post//npsp/layouts/Contact-Contact Layout.layout" />
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Cumulus/rel/${version.npsp}/src/layouts/Error__c-Error%20Layout.layout"
+           dest="unpackaged/post//npsp/layouts/npsp__Error__c-Error Layout.layout" />
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Cumulus/rel/${version.npsp}/src/layouts/Opportunity-Donation%20Layout.layout"
+           dest="unpackaged/post//npsp/layouts/Opportunity-Donation Layout.layout" />
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Cumulus/rel/${version.npsp}/src/layouts/Opportunity-Membership%20Layout.layout"
+           dest="unpackaged/post//npsp/layouts/Opportunity-Membership Layout.layout" />
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Cumulus/rel/${version.npsp}/src/layouts/Schedulable__c-Schedulable%20Layout.layout"
+           dest="unpackaged/post//npsp/layouts/npsp__Schedulable__c-Schedulable Layout.layout" />
+      <get src="https://raw.githubusercontent.com/SalesforceFoundation/Cumulus/rel/${version.npsp}/src/layouts/Trigger_Handler__c-Trigger%20Handler%20Layout.layout"
+           dest="unpackaged/post//npsp/layouts/npsp__Trigger_Handler__c-Trigger Handler Layout.layout" />
+    </target>
+
     <target name="remove_social_post_from_profiles">
         <echo message="updating profiles to remove Social-Post references in src..." />
         <replaceregexp match="^    &lt;layoutAssignments&gt;\n        &lt;layout&gt;SocialPost-Social Post Layout&lt;/layout&gt;\n    &lt;/layoutAssignments&gt;$" replace="" flags="gm" byline="false">
@@ -284,5 +342,18 @@ GW_Volunteers: ${InstalledPackage.GW_Volunteers.versionNumber} (${version.GW_Vol
         <echo message="deleting Social-Post related files from src..." />
         <delete file="src/workflows/SocialPost.workflow"/>
         <delete file="src/layouts/SocialPost-Social Post Layout.layout"/>
+    </target>
+
+    <target name="remove_social_persona_from_profiles">
+        <echo message="updating profiles to remove Social-Persona references in src..." />
+        <replaceregexp match="^    &lt;layoutAssignments&gt;\n        &lt;layout&gt;SocialPersona-Social Persona Layout&lt;/layout&gt;\n    &lt;/layoutAssignments&gt;$" replace="" flags="gm" byline="false">
+            <fileset dir="src/profiles" includes="**/*.profile" />
+        </replaceregexp>
+    </target>
+ 
+    <target name="delete_social_persona_files" depends="remove_social_persona_from_profiles">
+        <echo message="deleting Social-Persona related files from src..." />
+        <delete file="src/workflows/SocialPersona.workflow"/>
+        <delete file="src/layouts/SocialPersona-Social Persona Layout.layout"/>
     </target>
 </project>

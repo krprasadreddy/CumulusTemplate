@@ -2002,7 +2002,6 @@
         <searchResultsAdditionalFields>CONTACT.ADDRESS2_STATE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.ADDRESS2_ZIP</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>ControlledByParent</sharingModel>
     <validationRules>
         <fullName>Contact_Preferred_Email</fullName>
         <active>true</active>

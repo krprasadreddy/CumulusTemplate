@@ -223,36 +223,7 @@
         <name>KnowledgeSettings</name>
     </types>
     <types>
-        <members>Account-Household Layout</members>
-        <members>npsp__Account-Organization Layout</members>
-        <members>npsp__Address__c-Address Layout</members>
-        <members>npsp__Batch__c-Batch Layout</members>
-        <members>npsp__Contact-Contact Layout</members>
-        <members>npsp__Error__c-Error Layout</members>
-        <members>npsp__Opportunity-Donation Layout</members>
-        <members>npsp__Opportunity-Membership Layout</members>
-        <members>npsp__Schedulable__c-Schedulable Layout</members>
-        <members>npsp__Trigger_Handler__c-Trigger Handler Layout</members>
-        <members>Asset-Asset Layout</members>
-        <members>Case-Case Layout</members>
-        <members>Lead-Lead Layout</members>
-        <members>Solution-Solution Layout</members>
-        <members>Campaign-Campaign Layout</members>
-        <members>CaseClose-Close Case Layout</members>
-        <members>OpportunityLineItem-Opportunity Product Layout.layout Task-Task Layout</members>
-        <members>CampaignMember-Campaign Member Page Layout</members>
-        <members>Contract-Contract Layout</members>
-        <members>Pricebook2-Price Book Layout</members>
-        <members>User-User Layout</members>
-        <members>Case-Case %28Marketing%29 Layout</members>
-        <members>Event-Event Layout</members>
-        <members>Product2-Product Layout</members>
-        <members>Case-Case %28Sales%29 Layout</members>
-        <members>Global-Global Layout</members>
-        <members>SocialPersona-Social Persona Layout</members>
-        <members>Case-Case %28Support%29 Layout</members>
-        <members>Idea-Idea Layout</members>
-        <members>SocialPost-Social Post Layout</members>
+        <members>*</members>
         <name>Layout</name>
     </types>
     <types>

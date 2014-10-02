@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>Volunteers for Salesforce</fullName>
+  <types>
+    <members>GW_Volunteers__Job_Recurrence_Schedule__c-Volunteer Job Recurrence Schedule Layout</members>
+    <members>GW_Volunteers__Volunteer_Recurrence_Schedule__c-Volunteer Recurrence Schedule Layout</members>
+    <members>GW_Volunteers__Volunteer_Hours__c-Volunteer Hours Layout</members>
+    <members>GW_Volunteers__Volunteer_Shift__c-Volunteer Shift Layout</members>
+    <members>GW_Volunteers__Volunteer_Job__c-Volunteer Job Layout</members>
+    <name>Layout</name>
+  </types>
+  <version>29.0</version>
+</Package>

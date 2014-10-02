@@ -45,9 +45,6 @@
     <layoutAssignments>
         <layout>Product2-Product Layout</layout>
     </layoutAssignments>
-    <layoutAssignments>
-        <layout>SocialPersona-Social Persona Layout</layout>
-    </layoutAssignments>
 
     <layoutAssignments>
         <layout>Solution-Solution Layout</layout>

@@ -1,34 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <businessProcesses>
-        <fullName>NPSP_Default</fullName>
+        <fullName>Donation</fullName>
         <isActive>true</isActive>
         <values>
             <fullName>Closed Lost</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Closed Won</fullName>
+            <fullName>Pledged</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Id%2E Decision Makers</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Needs Analysis</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Negotiation%2FReview</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Perception Analysis</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Proposal%2FPrice Quote</fullName>
+            <fullName>Posted</fullName>
             <default>false</default>
         </values>
         <values>
@@ -36,19 +20,206 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Qualification</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Value Proposition</fullName>
+            <fullName>Withdrawn</fullName>
             <default>false</default>
         </values>
     </businessProcesses>
-
+    <fields>
+        <fullName>StageName</fullName>
+        <picklist>
+            <picklistValues>
+                <fullName>Prospecting</fullName>
+                <closed>false</closed>
+                <default>false</default>
+                <forecastCategory>Pipeline</forecastCategory>
+                <probability>0</probability>
+                <won>false</won>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Pledged</fullName>
+                <closed>false</closed>
+                <default>false</default>
+                <forecastCategory>Pipeline</forecastCategory>
+                <probability>50</probability>
+                <won>false</won>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Posted</fullName>
+                <closed>true</closed>
+                <default>false</default>
+                <forecastCategory>Closed</forecastCategory>
+                <probability>100</probability>
+                <won>true</won>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Withdrawn</fullName>
+                <closed>true</closed>
+                <default>false</default>
+                <forecastCategory>Omitted</forecastCategory>
+                <probability>0</probability>
+                <won>false</won>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Closed Lost</fullName>
+                <closed>true</closed>
+                <default>false</default>
+                <forecastCategory>Omitted</forecastCategory>
+                <probability>0</probability>
+                <won>false</won>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
     <recordTypes>
-        <fullName>NPSP_Default</fullName>
+        <fullName>Donation</fullName>
         <active>true</active>
-        <businessProcess>NPSP_Default</businessProcess>
-        <label>NPSP Default</label>
+        <businessProcess>Donation</businessProcess>
+        <description>Donation Received</description>
+        <label>Donation</label>
+        <picklistValues>
+            <picklist>ForecastCategoryName</picklist>
+            <values>
+                <fullName>Best Case</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Commit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Omitted</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pipeline</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Grant</fullName>
+        <active>true</active>
+        <businessProcess>Donation</businessProcess>
+        <description>Grant Received</description>
+        <label>Grant</label>
+        <picklistValues>
+            <picklist>ForecastCategoryName</picklist>
+            <values>
+                <fullName>Best Case</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Commit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Omitted</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pipeline</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>MajorGift</fullName>
+        <active>true</active>
+        <businessProcess>Donation</businessProcess>
+        <description>Large Donation from a Major Donor</description>
+        <label>Major Gift</label>
+        <picklistValues>
+            <picklist>ForecastCategoryName</picklist>
+            <values>
+                <fullName>Best Case</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Commit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Omitted</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pipeline</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>MatchingDonation</fullName>
+        <active>true</active>
+        <businessProcess>Donation</businessProcess>
+        <description>Matching Donation from an Donor&apos;s Employer or other Organization</description>
+        <label>Matching Donation</label>
+        <picklistValues>
+            <picklist>ForecastCategoryName</picklist>
+            <values>
+                <fullName>Best Case</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Commit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Omitted</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pipeline</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Membership</fullName>
+        <active>true</active>
+        <businessProcess>Donation</businessProcess>
+        <description>A membership record type</description>
+        <label>Membership</label>
+        <picklistValues>
+            <picklist>ForecastCategoryName</picklist>
+            <values>
+                <fullName>Best Case</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Commit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Omitted</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pipeline</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
     </recordTypes>
 </CustomObject>

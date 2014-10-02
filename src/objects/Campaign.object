@@ -1193,7 +1193,6 @@
         <searchResultsAdditionalFields>CAMPAIGN.NUM_WON_OPPORTUNITIES</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CAMPAIGN.RECORDTYPE</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>FullAccess</sharingModel>
     <webLinks>
         <fullName>GW_Volunteers__CampaignRoster</fullName>
         <availability>online</availability>

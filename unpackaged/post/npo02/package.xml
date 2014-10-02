@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>Households</fullName>
+  <types>
+    <members>npo02__Household__c-Household Layout</members>
+    <name>Layout</name>
+  </types>
+  <version>29.0</version>
+</Package>

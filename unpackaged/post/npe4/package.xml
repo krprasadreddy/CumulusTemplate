@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>Relationships</fullName>
+  <types>
+    <members>npe4__Relationship_Error__c-Relationship Error Layout</members>
+    <members>npe4__Relationship__c-Relationship Layout</members>
+    <name>Layout</name>
+  </types>
+  <version>29.0</version>
+</Package>

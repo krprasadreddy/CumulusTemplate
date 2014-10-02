@@ -672,7 +672,6 @@
         <searchResultsAdditionalFields>OPPORTUNITY.CLOSE_DATE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>OPPORTUNITY.RECORDTYPE</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
     <webLinks>
         <fullName>npe01__Add_Matching_Donation</fullName>
         <availability>online</availability>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>Nonprofit Starter Pack</fullName>
+  <types>
+    <members>Account-Household Layout</members>
+    <members>Account-Organization Layout</members>
+    <members>Contact-Contact Layout</members>
+    <members>Opportunity-Donation Layout</members>
+    <members>Opportunity-Membership Layout</members>
+    <members>npsp__Address__c-Address Layout</members>
+    <members>npsp__Batch__c-Batch Layout</members>
+    <members>npsp__Error__c-Error Layout</members>
+    <members>npsp__Schedulable__c-Schedulable Layout</members>
+    <members>npsp__Trigger_Handler__c-Trigger Handler Layout</members>
+    <name>Layout</name>
+  </types>
+  <version>29.0</version>
+</Package>

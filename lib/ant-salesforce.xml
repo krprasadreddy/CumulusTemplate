@@ -27,6 +27,7 @@
       <attribute name="packagePassword" description="Password used to install the pacakge. Optional." default=""/>
       <attribute name="username" description="Salesforce user name."/>
       <attribute name="password" description="Salesforce password."/>
+      <attribute name="serverurl" description="Salesforce server url."/>
       <sequential>
           <!-- Generate optional <password> element? -->
           <if><equals arg1="@{packagePassword}" arg2=""/>
@@ -40,7 +41,7 @@
           <mkdir dir="${basedir}/installdeploy/installedPackages"/>
           <echo file="${basedir}/installdeploy/package.xml"><![CDATA[<Package xmlns="http://soap.sforce.com/2006/04/metadata"><types><members>@{namespace}</members><name>InstalledPackage</name></types><version>29.0</version></Package>]]></echo>
           <echo file="${basedir}/installdeploy/installedPackages/@{namespace}.installedPackage"><![CDATA[<InstalledPackage xmlns="http://soap.sforce.com/2006/04/metadata"><versionNumber>@{version}</versionNumber>${passwordElement}</InstalledPackage>]]></echo>
-          <sf:deploy deployRoot="${basedir}/installdeploy" username="@{username}" password="@{password}" maxPoll="500" />
+          <sf:deploy deployRoot="${basedir}/installdeploy" username="@{username}" password="@{password}" serverurl="@{serverurl}" maxPoll="500" />
           <delete dir="${basedir}/installdeploy"/>
       </sequential>
   </macrodef>
@@ -50,6 +51,7 @@
       <attribute name="namespace" description="Namespace of managed package to install."/>
       <attribute name="username" description="Salesforce user name."/>
       <attribute name="password" description="Salesforce password."/>
+      <attribute name="serverurl" description="Salesforce server url."/>
       <sequential>
           <!-- Generate working folder and metadata files representing the package to uninstall -->       
           <delete dir="${basedir}/installdeploy"/>
@@ -59,7 +61,7 @@
           <echo file="${basedir}/installdeploy/package.xml"><![CDATA[<Package xmlns="http://soap.sforce.com/2006/04/metadata"><version>29.0</version></Package>]]></echo>
           <echo file="${basedir}/installdeploy/destructiveChanges.xml"><![CDATA[<Package xmlns="http://soap.sforce.com/2006/04/metadata"><types><members>@{namespace}</members><name>InstalledPackage</name></types><version>29.0</version></Package>]]></echo>
           <echo file="${basedir}/installdeploy/installedPackages/@{namespace}.installedPackage"><![CDATA[<InstalledPackage xmlns="http://soap.sforce.com/2006/04/metadata"><versionNumber>@{version}</versionNumber></InstalledPackage>]]></echo>
-          <sf:deploy deployRoot="${basedir}/installdeploy" username="@{username}" password="@{password}" maxPoll="500" />
+          <sf:deploy deployRoot="${basedir}/installdeploy" username="@{username}" password="@{password}" serverurl="@{serverurl}" maxPoll="500" />
       </sequential>
   </macrodef>
 
@@ -74,6 +76,7 @@
           <sf:bulkRetrieve
             username="${sf.username}"
             password="${sf.password}"
+            serverurl="${sf.serverurl}"
             metadataType="InstalledPackage"
             retrieveTarget="${basedir}/installedPackages"/>
         </then>
@@ -127,7 +130,7 @@
             </and>
             <then>
               <echo>Uninstalling @{namespace} ${InstalledPackage.@{namespace}.versionNumber} to downgrade to @{version}</echo>
-              <uninstallPackage namespace="@{namespace}" username="${sf.username}" password="${sf.password}"/>
+              <uninstallPackage namespace="@{namespace}" username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" />
             </then>
             <else>
               <!-- just an upgrade, no need to uninstall first -->
@@ -137,7 +140,7 @@
           <if>
             <not><equals arg1="@{version}" arg2="Not Installed" /></not>
             <then>
-              <installPackage namespace="@{namespace}" version="@{version}" username="${sf.username}" password="${sf.password}"/>
+              <installPackage namespace="@{namespace}" version="@{version}" username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" />
             </then>
           </if>
         </then>
